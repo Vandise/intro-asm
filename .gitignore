@@ -1,0 +1,6 @@
+.DS_Store
+bin/
+obj/
+*.o
+*.d
+*.l
