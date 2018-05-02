@@ -8,8 +8,8 @@ default rel
 %include "common.inc"
 
 section .data
-  lower:  dw  0x0002      ; 251658242
-  upper:  dw  0x0F00
+  lower:  dw  0x0000      ; 16,777,216
+  upper:  dw  0x0100
 
   buffer:  db  0        ; storage for sys_out
 
@@ -31,6 +31,12 @@ start:
   mov   ax, di          ; divide MSB
   div   bp
   mov   di, ax          ; store result back in di
+
+                        ; registers dx and ax form one 32bit register with division
+                        ; dx = 0x0100 / 10 ( 25.6 ) -> remainder 6 & 0x0000
+                        ; http://www.felixcloutier.com/x86/DIV.html#operation
+                        ; https://stackoverflow.com/questions/38416593/why-should-edx-be-0-before-using-the-div-instruction
+                        ; dx:ax = 0x00059999 (367001) % 10 = 1
 
   mov   ax, si          ; divide LSB
   div   bp
